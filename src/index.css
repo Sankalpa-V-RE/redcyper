@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  --term-color: #4af626;
+  --term-bg: #050505;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--term-bg);
+  color: var(--term-color);
+  font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  overflow: hidden;
+}
+
+/* CRT EFFECTS */
+.crt-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--term-bg);
+}
+
+/* Scanlines */
+.crt-container::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.85; }
+  10% { opacity: 0.95; }
+  15% { opacity: 1; }
+  50% { opacity: 0.98; }
+  100% { opacity: 0.95; }
+}
+
+.crt-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+  animation: flicker 0.15s infinite;
+  text-shadow: 0 0 5px rgba(74, 246, 38, 0.4);
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-4px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(4px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+.glitch-effect {
+  animation: glitch 0.1s linear infinite;
+  color: #ff3333;
+  text-shadow: 2px 0 #0000ff, -2px 0 #ff0000;
+}

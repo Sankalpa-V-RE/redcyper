@@ -90,14 +90,14 @@ export default function Terminal() {
   useEffect(() => {
     const glitchInterval = setInterval(() => {
       const rand = Math.random();
-      if (rand > 0.995) {
-        // 0.5% chance for a blackout (switch-off)
+      if (rand > 0.99) {
+        // 1.0% chance for a blackout (switch-off)
         triggerBlackout(1000);
-      } else if (rand > 0.985) {
-        // 1.0% chance every 1.5 seconds for a hard glitch
+      } else if (rand > 0.97) {
+        // 2.0% chance every 1.5 seconds for a hard glitch
         triggerHardGlitch(Math.random() * 400 + 200);
-      } else if (rand > 0.970) {
-        // 1.5% chance for a subtle glitch
+      } else if (rand > 0.92) {
+        // 5.0% chance for a subtle glitch
         triggerGlitch(Math.random() * 200 + 100);
       }
     }, 1500);

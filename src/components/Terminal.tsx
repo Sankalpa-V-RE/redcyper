@@ -11,16 +11,14 @@ interface HistoryEntry {
 }
 
 export default function Terminal() {
-  const [history, setHistory] = useState<HistoryEntry[]>([
-    { type: 'output', content: 'Ecorp Terminal v2.1.4' },
-    { type: 'output', content: 'Type "help" for a list of available commands.' }
-  ]);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [currentPath, setCurrentPath] = useState<string>('/root/fsociety');
   const [input, setInput] = useState<string>('');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [isGlitching, setIsGlitching] = useState(false);
   const [isHardGlitching, setIsHardGlitching] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(true);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -46,18 +44,47 @@ export default function Terminal() {
     setTimeout(() => setIsHardGlitching(false), duration);
   };
 
+  // Login sequence animation
+  useEffect(() => {
+    const MOTD = [
+      'Last login: Sun Jul 12 21:05:14 2026 from 127.0.0.1',
+      'Linux fsociety-root 5.15.0-generic x86_64',
+      '',
+      'WARNING: UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED.',
+      'ALLSAFE CYBERSECURITY HAS BEEN COMPROMISED.',
+      '',
+      'Elliot is asleep. We are in control now.',
+      'Don\'t wake him up. We have work to do.',
+      ''
+    ];
+
+    let currentLine = 0;
+    
+    const playLogin = () => {
+      if (currentLine < MOTD.length) {
+        setHistory(prev => [...prev, { type: 'output', content: MOTD[currentLine] }]);
+        currentLine++;
+        setTimeout(playLogin, Math.random() * 200 + 100);
+      } else {
+        setIsLoggingIn(false);
+      }
+    };
+    
+    setTimeout(playLogin, 500);
+  }, []);
+
   // Random periodic glitch
   useEffect(() => {
     const glitchInterval = setInterval(() => {
       const rand = Math.random();
-      if (rand > 0.95) {
-        // 5% chance every 2.5 seconds for a hard glitch
-        triggerHardGlitch(Math.random() * 300 + 200);
-      } else if (rand > 0.85) {
-        // 10% chance for a subtle glitch
+      if (rand > 0.90) {
+        // 10% chance every 1.5 seconds for a hard glitch (increased frequency)
+        triggerHardGlitch(Math.random() * 400 + 200);
+      } else if (rand > 0.75) {
+        // 15% chance for a subtle glitch
         triggerGlitch(Math.random() * 200 + 100);
       }
-    }, 2500);
+    }, 1500);
     return () => clearInterval(glitchInterval);
   }, []);
 
@@ -163,21 +190,28 @@ export default function Terminal() {
         ))}
       </div>
 
-      <div className="flex items-center mt-1">
-        <span className="text-green-600 mr-2 whitespace-nowrap">{promptString}</span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="flex-1 bg-transparent border-none outline-none text-green-500 shadow-none focus:ring-0 p-0"
-          style={{ color: 'var(--term-color)', caretColor: 'var(--term-color)', backgroundColor: 'transparent' }}
-          autoFocus
-          spellCheck={false}
-          autoComplete="off"
-        />
-      </div>
+      {!isLoggingIn && (
+        <div className="flex items-center mt-1">
+          <span className="text-green-600 mr-2 whitespace-nowrap">{promptString}</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="flex-1 bg-transparent border-none outline-none text-green-500 shadow-none focus:ring-0 p-0"
+            style={{ color: 'var(--term-color)', caretColor: 'var(--term-color)', backgroundColor: 'transparent' }}
+            autoFocus
+            spellCheck={false}
+            autoComplete="off"
+          />
+        </div>
+      )}
+      {isLoggingIn && (
+        <div className="mt-1">
+          <span className="animate-pulse text-green-500">_</span>
+        </div>
+      )}
       <div ref={bottomRef} className="h-4" />
     </div>
   );

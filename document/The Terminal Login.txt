@@ -1,0 +1,10 @@
+Last login: Sun Jul 12 21:05:14 2026 from 127.0.0.1
+Linux fsociety-root 5.15.0-generic x86_64
+
+WARNING: UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED.
+ALLSAFE CYBERSECURITY HAS BEEN COMPROMISED. 
+
+Elliot is asleep. We are in control now. 
+Don't wake him up. We have work to do.
+
+mrrobot@fsociety:~#

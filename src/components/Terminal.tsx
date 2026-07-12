@@ -12,7 +12,7 @@ interface HistoryEntry {
 
 export default function Terminal() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [currentPath, setCurrentPath] = useState<string>('/root/fsociety');
+  const [currentPath, setCurrentPath] = useState<string>('/home/mrrobot');
   const [input, setInput] = useState<string>('');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
@@ -59,7 +59,7 @@ export default function Terminal() {
     ];
 
     let currentLine = 0;
-    
+
     const playLogin = () => {
       if (currentLine < MOTD.length) {
         setHistory(prev => [...prev, { type: 'output', content: MOTD[currentLine] }]);
@@ -69,7 +69,7 @@ export default function Terminal() {
         setIsLoggingIn(false);
       }
     };
-    
+
     setTimeout(playLogin, 500);
   }, []);
 
@@ -77,7 +77,7 @@ export default function Terminal() {
   useEffect(() => {
     const glitchInterval = setInterval(() => {
       const rand = Math.random();
-      if (rand > 0.90) {
+      if (rand > 0.93) {
         // 10% chance every 1.5 seconds for a hard glitch (increased frequency)
         triggerHardGlitch(Math.random() * 400 + 200);
       } else if (rand > 0.75) {
@@ -170,7 +170,7 @@ export default function Terminal() {
   const promptString = `root@10.0.2.14:${currentPath}#`;
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`w-full h-full p-2 sm:p-4 overflow-y-auto font-mono text-sm sm:text-base leading-relaxed ${isHardGlitching ? 'hard-glitch-effect' : isGlitching ? 'glitch-effect' : ''}`}
       onClick={handleContainerClick}

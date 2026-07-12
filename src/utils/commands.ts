@@ -95,10 +95,10 @@ const commands: Record<string, CommandHandler> = {
 
   cd: ({ args, currentPath }) => {
     if (args.length === 0) {
-      return { newPath: '/root/fsociety' };
+      return { newPath: '/home/mrrobot' };
     }
     const target = args[0];
-    if (target === '~') return { newPath: '/root/fsociety' };
+    if (target === '~') return { newPath: '/home/mrrobot' };
     
     const newPath = resolvePath(currentPath, target);
     const dir = getDirectory(newPath);

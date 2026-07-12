@@ -20,6 +20,7 @@ export default function Terminal() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [isGlitching, setIsGlitching] = useState(false);
+  const [isHardGlitching, setIsHardGlitching] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,10 +36,30 @@ export default function Terminal() {
     inputRef.current?.focus();
   };
 
-  const triggerGlitch = () => {
+  const triggerGlitch = (duration = 300) => {
     setIsGlitching(true);
-    setTimeout(() => setIsGlitching(false), 300);
+    setTimeout(() => setIsGlitching(false), duration);
   };
+
+  const triggerHardGlitch = (duration = 400) => {
+    setIsHardGlitching(true);
+    setTimeout(() => setIsHardGlitching(false), duration);
+  };
+
+  // Random periodic glitch
+  useEffect(() => {
+    const glitchInterval = setInterval(() => {
+      const rand = Math.random();
+      if (rand > 0.95) {
+        // 5% chance every 2.5 seconds for a hard glitch
+        triggerHardGlitch(Math.random() * 300 + 200);
+      } else if (rand > 0.85) {
+        // 10% chance for a subtle glitch
+        triggerGlitch(Math.random() * 200 + 100);
+      }
+    }, 2500);
+    return () => clearInterval(glitchInterval);
+  }, []);
 
   const handleCommand = (cmd: string) => {
     if (!cmd.trim()) {
@@ -68,9 +89,9 @@ export default function Terminal() {
       setCurrentPath(result.newPath);
     }
 
-    // Trigger glitch on specific sensitive files or errors
-    if (cmd.includes('vault_codes.enc') || cmd.includes('sudo rm') || cmd.includes('financial_irregularities.md')) {
-      triggerGlitch();
+    // Trigger glitch on specific sensitive files or commands
+    if (cmd.includes('wtp_incident_1993.enc') || cmd.includes('f_society_dat.sh') || cmd.includes('sudo')) {
+      triggerGlitch(500);
     }
   };
 
@@ -124,7 +145,7 @@ export default function Terminal() {
   return (
     <div 
       ref={containerRef}
-      className={`w-full h-full p-2 sm:p-4 overflow-y-auto font-mono text-sm sm:text-base leading-relaxed ${isGlitching ? 'glitch-effect' : ''}`}
+      className={`w-full h-full p-2 sm:p-4 overflow-y-auto font-mono text-sm sm:text-base leading-relaxed ${isHardGlitching ? 'hard-glitch-effect' : isGlitching ? 'glitch-effect' : ''}`}
       onClick={handleContainerClick}
     >
       <div className="output-container">

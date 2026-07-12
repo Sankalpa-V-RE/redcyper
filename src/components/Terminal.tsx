@@ -15,7 +15,7 @@ export default function Terminal() {
     { type: 'output', content: 'Ecorp Terminal v2.1.4' },
     { type: 'output', content: 'Type "help" for a list of available commands.' }
   ]);
-  const [currentPath, setCurrentPath] = useState<string>('/home/user');
+  const [currentPath, setCurrentPath] = useState<string>('/root/fsociety');
   const [input, setInput] = useState<string>('');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);

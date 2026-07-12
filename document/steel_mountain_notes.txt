@@ -1,0 +1,15 @@
+TARGET: Steel Mountain Data Center
+OBJECTIVE: Destroy LTO magnetic backup tapes.
+
+VULNERABILITY: Climate Control System (HVAC).
+Tapes melt at 130 degrees Fahrenheit. 
+Network is air-gapped. Requires physical payload delivery.
+
+PLAN:
+1. Social engineer entry (Tour? VIP appointment?).
+2. Bypass security on Floor 2.
+3. Access network closet TR-4.
+4. Plant Raspberry Pi on the HVAC controller network.
+5. Override thermostats to maximum output.
+
+NOTE: Watch out for Tyrell. He's a wild card.

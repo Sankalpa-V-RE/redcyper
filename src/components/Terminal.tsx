@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { KeyboardEvent } from 'react';
 import { executeCommand } from '../utils/commands';
-import type { CommandResult } from '../utils/commands';
 import { getDirectory } from '../utils/fileSystemAPI';
 
 interface HistoryEntry {

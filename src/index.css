@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@theme {
+  --color-green-400: #4af626;
+  --color-green-500: #39ff14;
+  --color-green-600: #2ea410;
+}
+
+/* Hide scrollbars completely while keeping scroll functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
 :root {
   --term-color: #4af626;
   --term-bg: #050505;

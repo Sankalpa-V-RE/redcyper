@@ -68,7 +68,7 @@ const commands: Record<string, CommandHandler> = {
 
     const output: string[] = [];
     const entries = Object.values(dir.children);
-    
+
     if (showAll) {
       entries.unshift(
         { type: 'dir', name: '.', children: {}, permissions: 'drwxr-xr-x' },
@@ -99,7 +99,7 @@ const commands: Record<string, CommandHandler> = {
     }
     const target = args[0];
     if (target === '~') return { newPath: '/home/mrrobot' };
-    
+
     const newPath = resolvePath(currentPath, target);
     const dir = getDirectory(newPath);
     if (!dir) {
@@ -115,7 +115,7 @@ const commands: Record<string, CommandHandler> = {
     const targetPath = resolvePath(currentPath, args[0]);
     const file = getFile(targetPath);
     const dir = getDirectory(targetPath);
-    
+
     if (dir) {
       return { output: [`cat: ${args[0]}: Is a directory`] };
     }
@@ -137,7 +137,7 @@ const commands: Record<string, CommandHandler> = {
     if (!dir) return { output: [`tree: ${args[0] || currentPath}: No such directory`] };
 
     const output: string[] = [target];
-    
+
     const traverse = (node: any, prefix: string) => {
       const keys = Object.keys(node.children);
       keys.forEach((key, index) => {
@@ -190,7 +190,7 @@ const commands: Record<string, CommandHandler> = {
 
     const lines = file.content.split('\n');
     const matched = lines.filter(line => line.includes(pattern));
-    
+
     // Simple highlighting by wrapping matched text in HTML/CSS wouldn't work with pure text output array,
     // so we just return the lines.
     return { output: matched };
@@ -199,26 +199,29 @@ const commands: Record<string, CommandHandler> = {
   sysinfo: () => {
     return {
       output: [
-        '   _____                     ',
-        '  |  ___|                    ',
-        '  | |__  ___ ___  _ __ _ __  ',
-        '  |  __|/ __/ _ \\| \'__| \'_ \\ ',
-        '  | |__| (_| (_) | |  | |_) |',
-        '  \\____/\\___\\___/|_|  | .__/ ',
-        '                      | |    ',
-        '                      |_|    ',
+        '   _____    _   ',
+        '  |_   _|  (_)  ',
+        '    | | ___ _ __ ___  ',
+        '    | |/ _ \\ \'__/ __| ',
+        '    | |  __/ |  \\__ \\ ',
+        '    \\_/\\___|_|  |___/   (Paranoid Edition)',
         '',
-        'OS: EcorpOS v9.4 (Paranoid Edition)',
-        'Kernel: 5.15.0-ecorp-secure',
-        'Uptime: 42 days, 15 hours, 23 mins',
+        'OS: Tails 6.2 (Amnesic Incognito Live System)',
+        'Kernel: 6.8.0-tails-amd64',
+        'Uptime: 42 days, 15 hours, 23 minutes',
         'Shell: bash',
-        'CPU: Quantum Core processor @ 4.20GHz',
-        'RAM: 128TB',
-        'Status: UNREGISTERED / BREACHED'
+        'Hostname: darknode',
+        'CPU: Intel Core i7-12700H (8) @ 4.7GHz',
+        'RAM: 256GB DDR5',
+        'Disk: 0GB (Live USB - Amnesic)',
+        'Network: Tor (Exit Node: random)',
+        'Status: ENCRYPTED • TORIFIED • UNTRACEABLE',
+        '',
+        'Warning: All memory will be wiped on shutdown.'
       ]
     };
   },
-  
+
   neofetch: (context) => commands.sysinfo(context),
 
   man: ({ args }) => {

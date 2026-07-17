@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { KeyboardEvent } from 'react';
 import { executeCommand } from '../utils/commands';
-import type { CommandResult } from '../utils/commands';
 import { getDirectory } from '../utils/fileSystemAPI';
 
 interface HistoryEntry {
@@ -18,7 +17,8 @@ export default function Terminal() {
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [isGlitching, setIsGlitching] = useState(false);
   const [isHardGlitching, setIsHardGlitching] = useState(false);
-  const [isLoggingIn, setIsLoggingIn] = useState(true);
+  const [isBlackout, setIsBlackout] = useState(false);
+  const [isBusy, setIsBusy] = useState(true);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,8 +44,15 @@ export default function Terminal() {
     setTimeout(() => setIsHardGlitching(false), duration);
   };
 
+  const triggerBlackout = (duration = 1000) => {
+    setIsBlackout(true);
+    setTimeout(() => setIsBlackout(false), duration);
+  };
+
   // Login sequence animation
   useEffect(() => {
+    let isActive = true;
+    
     const MOTD = [
       'Last login: Sun Jul 12 21:05:14 2026 from 127.0.0.1',
       'Linux fsociety-root 5.15.0-generic x86_64',
@@ -61,27 +68,36 @@ export default function Terminal() {
     let currentLine = 0;
 
     const playLogin = () => {
+      if (!isActive) return;
+      
       if (currentLine < MOTD.length) {
         setHistory(prev => [...prev, { type: 'output', content: MOTD[currentLine] }]);
         currentLine++;
         setTimeout(playLogin, Math.random() * 200 + 100);
       } else {
-        setIsLoggingIn(false);
+        setIsBusy(false);
       }
     };
 
     setTimeout(playLogin, 500);
+    
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   // Random periodic glitch
   useEffect(() => {
     const glitchInterval = setInterval(() => {
       const rand = Math.random();
-      if (rand > 0.93) {
-        // 10% chance every 1.5 seconds for a hard glitch (increased frequency)
+      if (rand > 0.99) {
+        // 1.0% chance for a blackout (switch-off)
+        triggerBlackout(1000);
+      } else if (rand > 0.97) {
+        // 2.0% chance every 1.5 seconds for a hard glitch
         triggerHardGlitch(Math.random() * 400 + 200);
-      } else if (rand > 0.75) {
-        // 15% chance for a subtle glitch
+      } else if (rand > 0.92) {
+        // 5.0% chance for a subtle glitch
         triggerGlitch(Math.random() * 200 + 100);
       }
     }, 1500);
@@ -99,21 +115,39 @@ export default function Terminal() {
 
     setHistory(prev => [...prev, { type: 'input', content: cmd, path: currentPath }]);
 
-    const result: CommandResult = executeCommand(cmd, currentPath);
+    const result = executeCommand(cmd, currentPath);
 
     if (result.clear) {
       setHistory([]);
-    } else {
-      if (result.output) {
-        setHistory(prev => [
-          ...prev,
-          ...result.output!.map(line => ({ type: 'output' as const, content: line }))
-        ]);
+      if (result.newPath) {
+        setCurrentPath(result.newPath);
       }
-    }
-
-    if (result.newPath) {
-      setCurrentPath(result.newPath);
+    } else if (result.output && result.output.length > 0) {
+      setIsBusy(true);
+      let currentOutputLine = 0;
+      
+      const printLine = () => {
+        if (currentOutputLine < result.output!.length) {
+          const lineContent = result.output![currentOutputLine];
+          setHistory(prev => [...prev, { type: 'output', content: lineContent }]);
+          currentOutputLine++;
+          
+          // Delay between lines (faster for larger outputs)
+          const delay = result.output!.length > 20 ? 10 : Math.random() * 40 + 20;
+          setTimeout(printLine, delay);
+        } else {
+          setIsBusy(false);
+          if (result.newPath) {
+            setCurrentPath(result.newPath);
+          }
+        }
+      };
+      
+      setTimeout(printLine, 50);
+    } else {
+      if (result.newPath) {
+        setCurrentPath(result.newPath);
+      }
     }
 
     // Trigger glitch on specific sensitive files or commands
@@ -170,9 +204,9 @@ export default function Terminal() {
   const promptString = `root@10.0.2.14:${currentPath}#`;
 
   return (
-    <div
+    <div 
       ref={containerRef}
-      className={`w-full h-full p-2 sm:p-4 overflow-y-auto font-mono text-sm sm:text-base leading-relaxed ${isHardGlitching ? 'hard-glitch-effect' : isGlitching ? 'glitch-effect' : ''}`}
+      className={`w-full h-full p-2 sm:p-4 overflow-y-auto font-mono text-sm sm:text-base leading-relaxed ${isBlackout ? 'switch-off-effect' : isHardGlitching ? 'hard-glitch-effect' : isGlitching ? 'glitch-effect' : ''}`}
       onClick={handleContainerClick}
     >
       <div className="output-container">
@@ -190,7 +224,7 @@ export default function Terminal() {
         ))}
       </div>
 
-      {!isLoggingIn && (
+      {!isBusy && (
         <div className="flex items-center mt-1">
           <span className="text-green-600 mr-2 whitespace-nowrap">{promptString}</span>
           <input
@@ -207,7 +241,7 @@ export default function Terminal() {
           />
         </div>
       )}
-      {isLoggingIn && (
+      {isBusy && (
         <div className="mt-1">
           <span className="animate-pulse text-green-500">_</span>
         </div>

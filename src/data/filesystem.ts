@@ -38,7 +38,7 @@ export const fileSystem: DirectoryData = {
                   type: 'file',
                   name: 'root_access_history.log',
                   permissions: '-rw-------',
-                  content: "[2015-10-23 03:14:00] LOGIN SUCCESS: mrrobot\n[2015-10-23 03:14:05] SCRIPT EXECUTED: stage_2_prep.sh\n[2015-10-23 07:30:11] LOGIN SUCCESS: elliot\n[2015-10-23 07:30:45] PROCESS KILLED: stage_2_prep.sh by elliot\n[2015-10-23 07:31:00] PERMISSION DENIED: elliot attempted to delete /operations/stage_2/\n[2015-10-23 07:31:05] LOGIN SUCCESS: mrrobot (FORCED OVERRIDE)\n[2015-10-23 07:31:10] mrrobot locked user 'elliot' out of /operations/stage_2/\n[2015-10-23 07:35:00] LOGOUT: mrrobot"
+                  content: "[2015-03-29 01:15:00] LOGIN SUCCESS: mrrobot\n[2015-03-29 01:20:00] SCRIPT EXECUTED: hvac_override_test.sh\n[2015-03-29 03:45:12] LOGIN SUCCESS: elliot\n[2015-03-29 03:46:00] PROCESS KILLED: hvac_override_test.sh by elliot\n[2015-03-29 03:50:00] LOGOUT: elliot"
                 }
               }
             },
@@ -53,17 +53,17 @@ export const fileSystem: DirectoryData = {
                   permissions: '-rw-------',
                   content: "LOG DATE: 2014-10-31\nSUBJECT: Origin\n\nHe created me to take the hits. \nWhen the world was too much for the boy, when the pain was too loud, I stepped in. I am the father he needed but never had. I am the anger he is too afraid to express. \n\nHe wants to save the world, but he wants to do it without getting blood on his hands. That’s not how revolutions work. You can't dismantle an empire by asking politely. You have to burn it to the ground. \n\nHe gets to be the martyr. He gets to be the hero. \nI have to be the monster. \nI accept those terms. E Corp took Edward Alderson. I will take E Corp."
                 },
-                '44_the_host.log': {
+                '12_the_host.log': {
                   type: 'file',
-                  name: '44_the_host.log',
+                  name: '12_the_host.log',
                   permissions: '-rw-------',
-                  content: "LOG DATE: 2015-08-12\nSUBJECT: Elliot's Interference\n\nHe is awake again. And he is fighting me.\nHe’s running around trying to patch the holes I’m punching in E Corp’s armor. He thinks he can undo the 5/9 hack. He thinks he can put the genie back in the bottle. \n\nControl is an illusion, but he still refuses to see it. He’s crying over the collateral damage. Gideon, Shayla... he thinks it’s our fault. It’s not. It’s the cost of doing business in a war. \n\nI have to keep him distracted. I have to lock him out of the mainframes when I’m working with the Dark Army. If he sees the full scope of Stage 2, his fragile little mind will shatter completely, and I can't afford to lose the host. Not yet."
+                  content: "LOG DATE: 2015-03-15\nSUBJECT: Steel Mountain\n\nHe is hesitating. He wants to save the world, but he's afraid to pull the trigger. \nSteel Mountain is the key. If we melt their backups, E Corp is blind. But he's worried about the collateral. \nHe thinks we can just plant a Raspberry Pi and control the HVAC. It's a half-measure. \nI need to push him. I need to make him see that the only way to destroy them is to leave nothing behind."
                 },
-                '105_necessary_evil.log': {
+                '22_raspberry_pi.log': {
                   type: 'file',
-                  name: '105_necessary_evil.log',
+                  name: '22_raspberry_pi.log',
                   permissions: '-rw-------',
-                  content: "LOG DATE: 2015-09-29\nSUBJECT: Stage 2 / 71 Facilities\n\nThe paper records are moving. E Corp thinks they are smart, centralizing their recovery efforts into 71 facilities across the country. They are just putting all their targets in neat little rows for me.\n\nThe UPS battery firmware is modified. Hydrogen gas will build up. A single spark is all it takes. \n\nElliot will call it terrorism. The news will call it a tragedy. \nI call it a hard reset. \n\nPeople will die. I know that. But thousands die every day because E Corp decides they can't afford their mortgages, or their medical bills, or their clean water. This isn't murder; it's an eviction notice for the 1%. \n\nWhen the dust settles, they will finally understand. \nI am the architect of their freedom."
+                  content: "LOG DATE: 2015-03-28\nSUBJECT: The HVAC Plan\n\nThe plan is set. We infiltrate Steel Mountain. He plants the Pi on the climate control network. \nOnce we're in, we raise the temperature. The magnetic tapes will melt. \nThe Dark Army is handling the redundant backups in China. \nIf he fails, I will take over. The tapes must burn."
                 }
               }
             },
@@ -91,7 +91,7 @@ export const fileSystem: DirectoryData = {
                               type: 'file',
                               name: 'intercepted_comms.mbox',
                               permissions: '-rw-------',
-                              content: "FROM: p.price@ecorp.com\nTO: w.zhang@ministryofstate.gov.cn\nSUBJECT: The UN Vote / E-Coin\nDATE: [REDACTED]\n\nMinister Zhang,\n\nI have secured the necessary votes for the Congo annexation. E Corp will ensure the logistics are handled quietly. In return, I expect your full backing on the E-Coin standard. \n\nDo not test me on this. The 5/9 hack was a minor inconvenience for men like us, but if you attempt to manipulate my board again, I will reign down fire on your Washington Township project.\n\nWe are partners, not friends.\n\n- P. Price"
+                              content: "FROM: t.wellick@ecorp.com\nTO: p.price@ecorp.com\nSUBJECT: CTO Position / Colby\nDATE: 2015-03-20\n\nPhillip, \nWith Terry Colby out of the picture due to the recent Allsafe incident, I believe it is time we discuss the CTO position. I have proven my loyalty and my capability to protect this company's infrastructure.\nI request a formal meeting.\n\n- Tyrell Wellick"
                             },
                             'blackmail_material.enc': {
                               type: 'file',
@@ -112,11 +112,11 @@ export const fileSystem: DirectoryData = {
                               permissions: 'drwx------',
                               children: {}
                             },
-                            'red_wheelbarrow_menu.pdf': {
+                            'allsafe_security_audit.pdf': {
                               type: 'file',
-                              name: 'red_wheelbarrow_menu.pdf',
+                              name: 'allsafe_security_audit.pdf',
                               permissions: '-rw-r--r--',
-                              content: "[PDF DATA OMITTED] ... BBQ Special ... Contains embedded steganography payload."
+                              content: "[PDF DATA OMITTED] ... Allsafe Cybersecurity Audit Report ... Status: Vulnerable."
                             }
                           }
                         }
@@ -127,16 +127,16 @@ export const fileSystem: DirectoryData = {
                       name: 'infrastructure',
                       permissions: 'drwxr-xr-x',
                       children: {
-                        ups_battery_hack: {
+                        hvac_systems: {
                           type: 'dir',
-                          name: 'ups_battery_hack',
+                          name: 'hvac_systems',
                           permissions: 'drwxr-xr-x',
                           children: {
-                            'stage_2_firmware.bin': {
+                            'climate_control_override.py': {
                               type: 'file',
-                              name: 'stage_2_firmware.bin',
+                              name: 'climate_control_override.py',
                               permissions: '-rwxr-xr-x',
-                              content: "10101100 00101011 11110000 01010101\n[BINARY BLOB - UPS THERMAL RUNAWAY FIRMWARE OVERRIDE]"
+                              content: "def override_hvac():\n    target_temp = 95  # Celsius\n    print(f\"Setting Steel Mountain HVAC to {target_temp}C. Melting tapes...\")\n\noverride_hvac()"
                             }
                           }
                         }
@@ -153,13 +153,13 @@ export const fileSystem: DirectoryData = {
                       type: 'file',
                       name: 'minister_zhang_dossier.txt',
                       permissions: '-rw-r--r--',
-                      content: "ALIAS: Whiterose\nPUBLIC IDENTITY: Minister Zhi Zhang, China Minister of State Security\nORGANIZATION: The Dark Army\n\nTHREAT LEVEL: Critical / Unpredictable\n\nNOTES: \nShe is obsessed with time. Every second is accounted for. \nShe is using us to transport the Washington Township Plant to the Congo.\nPrice thinks he can control her. He is a fool.\nShe believes she can hack time. She is dangerous because she is a fanatic.\n\nWARNING: Do not trust her. Do not trust Leon. Do not let Elliot negotiate with them alone. I must handle the Dark Army."
+                      content: "ALIAS: Whiterose\nORGANIZATION: The Dark Army\n\nTHREAT LEVEL: High / Unknown\n\nNOTES: \nThey are the only ones who can hit the China backup servers simultaneously. \nWithout them, Steel Mountain is pointless. E Corp would just restore from China.\nCisco is our liaison, but he's a pawn. We need to secure Whiterose's cooperation."
                     },
                     'operatives.csv': {
                       type: 'file',
                       name: 'operatives.csv',
                       permissions: '-rw-r--r--',
-                      content: "ID,Alias,Role,Status\nDA_001,Leon,Protection/Elimination,Active\nDA_012,Cisco,Liaison,KIA\nDA_099,Xun,Hacker,Active"
+                      content: "ID,Alias,Role,Status\nDA_012,Cisco,Liaison,Active"
                     }
                   }
                 }
@@ -170,11 +170,11 @@ export const fileSystem: DirectoryData = {
               name: 'collateral_damage',
               permissions: 'drwx------',
               children: {
-                'confirmed_KIA.log': {
+                'potential_collateral.log': {
                   type: 'file',
-                  name: 'confirmed_KIA.log',
+                  name: 'potential_collateral.log',
                   permissions: '-rw-------',
-                  content: "STATUS: CASUALTIES OF WAR\nThese were necessary variables or unavoidable static. The mission continues.\n\n- Shayla Nico (Vera collateral. Elliot's weakness.)\n- Gideon Goddard (Allsafe CEO. Shot at a bar. A pawn sacrificed by others.)\n- Romero (Found dead in his mother's yard. Dark Army cleanup suspected.)\n- Trenton / Shama Biswas (Framed by the Dark Army. Executed.)\n- Mobley / Sunil Markesh (Framed by the Dark Army. Executed.)\n- Susan Jacobs (E Corp General Counsel. \"Madame Executioner.\" Handled by Darlene.)\n- Joanna Wellick (Shot by Derek. Tyrell's loose end.)\n- Angela Moss (Childhood friend. Asked too many questions. Terminated by Whiterose.)\n\nNOTE: Elliot cannot see this list. It will break him. Keep encrypted."
+                  content: "STATUS: ACCEPTABLE LOSSES\nIf the Steel Mountain gas pipes explode, there will be casualties.\n\n- Steel Mountain Security Personnel\n- Local civilians in adjacent blocks\n\nElliot cannot stomach this. He wants to use a Raspberry Pi instead of blowing the pipeline. I may have to let him try his way first, just to get him inside the building."
                 },
                 wtp_memorial: {
                   type: 'dir',
@@ -207,24 +207,24 @@ export const fileSystem: DirectoryData = {
                       permissions: 'drwx------',
                       children: {}
                     },
-                    'ecoin_crash_simulation.py': {
+                    'fsociety_video_render.sh': {
                       type: 'file',
-                      name: 'ecoin_crash_simulation.py',
+                      name: 'fsociety_video_render.sh',
                       permissions: '-rwxr-xr-x',
-                      content: "def simulate_crash():\n    market_cap = 5000000000000\n    while market_cap > 0:\n        market_cap -= market_cap * 0.15\n        print(f'E-Coin market cap: {market_cap}')\n    print('Economy resetting...')\n\nsimulate_crash()"
+                      content: "#!/bin/bash\n# Render the next fsociety manifesto video\nffmpeg -i raw_mask_footage.mp4 -vf \"curves=m='0/0 0.5/0.8 1/1'\" final_manifesto.mp4"
                     }
                   }
                 },
-                stage_2: {
+                steel_mountain: {
                   type: 'dir',
-                  name: 'stage_2',
+                  name: 'steel_mountain',
                   permissions: 'drwx------',
                   children: {
-                    'paper_records_routing.sh': {
+                    'raspberry_pi_payload.sh': {
                       type: 'file',
-                      name: 'paper_records_routing.sh',
+                      name: 'raspberry_pi_payload.sh',
                       permissions: '-rwx------',
-                      content: "#!/bin/bash\n# Reroute E Corp paper record deliveries to 71 facilities\n\nfor facility in $(cat targets.list); do\n  echo \"Rerouting delivery to $facility\"\n  # API call to shipping logistics\n  curl -X POST https://api.shipping.ecorp.com/v1/reroute -d \"facility_id=$facility\"\ndone\necho \"Stage 2 prep complete.\""
+                      content: "#!/bin/bash\n# Payload for the Raspberry Pi at Steel Mountain\n# Connects to the HVAC subnet and begins temperature override\n\necho \"Infiltrating HVAC subnet...\"\nping -c 4 10.233.1.1\necho \"Overriding thermostat controls. Setting to max.\""
                     }
                   }
                 }

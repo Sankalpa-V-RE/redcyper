@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import type { KeyboardEvent } from 'react';
 import { executeCommand } from '../utils/commands';
 import { getDirectory } from '../utils/fileSystemAPI';
+import CountdownComponent from './CountdownComponent';
 
 interface HistoryEntry {
-  type: 'input' | 'output';
+  type: 'input' | 'output' | 'component';
   content: string;
   path?: string; // for input prompts
+  componentName?: 'countdown';
 }
 
 export default function Terminal() {
@@ -122,6 +124,31 @@ export default function Terminal() {
       if (result.newPath) {
         setCurrentPath(result.newPath);
       }
+    } else if (result.action === 'countdown') {
+      setIsBusy(true);
+      const loadingLines = [
+        '[ INITIALIZING WINDOW ]',
+        '[ VERIFYING STATUS ]',
+        '[ OPERATION ARMED ]'
+      ];
+      let currentOutputLine = 0;
+      
+      const printLine = () => {
+        if (currentOutputLine < loadingLines.length) {
+          const lineContent = loadingLines[currentOutputLine];
+          setHistory(prev => [...prev, { type: 'output', content: lineContent }]);
+          currentOutputLine++;
+          setTimeout(printLine, Math.random() * 80 + 100);
+        } else {
+          setHistory(prev => [...prev, { type: 'component', content: '', componentName: 'countdown' }]);
+          setIsBusy(false);
+          if (result.newPath) {
+            setCurrentPath(result.newPath);
+          }
+        }
+      };
+      
+      setTimeout(printLine, 50);
     } else if (result.output && result.output.length > 0) {
       setIsBusy(true);
       let currentOutputLine = 0;
@@ -217,6 +244,8 @@ export default function Terminal() {
                 <span className="text-green-600 mr-2">{`root@10.0.2.14:${entry.path}#`}</span>
                 {entry.content}
               </span>
+            ) : entry.type === 'component' && entry.componentName === 'countdown' ? (
+              <CountdownComponent />
             ) : (
               <span className="text-green-400 opacity-80">{entry.content}</span>
             )}

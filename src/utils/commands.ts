@@ -9,6 +9,7 @@ export interface CommandResult {
   output?: string[];
   newPath?: string;
   clear?: boolean;
+  action?: 'countdown';
 }
 
 export type CommandHandler = (context: CommandContext) => CommandResult;
@@ -247,6 +248,23 @@ commands['hack'] = ({ args }) => {
     return { output: ['HACK THE PLANET!'] };
   }
   return { output: ['hack: command not found'] };
+};
+
+commands['./window.sh'] = ({ currentPath }) => {
+  if (currentPath === '/home/mrrobot/operation/relaunch') {
+    return { action: 'countdown' };
+  }
+  return { output: ['bash: ./window.sh: No such file or directory'] };
+};
+
+commands['bash'] = ({ args, currentPath }) => {
+  if (args[0] === 'window.sh') {
+    if (currentPath === '/home/mrrobot/operation/relaunch') {
+      return { action: 'countdown' };
+    }
+    return { output: ['bash: window.sh: No such file or directory'] };
+  }
+  return { output: ['bash: input file required or no handler for this script'] };
 };
 
 export function executeCommand(commandStr: string, currentPath: string): CommandResult {

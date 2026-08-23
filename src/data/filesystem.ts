@@ -29,6 +29,7 @@ export const fileSystem: DirectoryData = {
           name: 'mrrobot',
           permissions: 'drwx------',
           children: {
+
             '.sys_logs': {
               type: 'dir',
               name: '.sys_logs',
@@ -191,11 +192,120 @@ export const fileSystem: DirectoryData = {
                 }
               }
             },
-            operations: {
+            operation: {
               type: 'dir',
-              name: 'operations',
+              name: 'operation',
               permissions: 'drwxr-xr-x',
               children: {
+                relaunch: {
+                  type: 'dir',
+                  name: 'relaunch',
+                  permissions: 'drwxr-xr-x',
+                  children: {
+                    'operation_brief.txt': {
+                      type: 'file',
+                      name: 'operation_brief.txt',
+                      permissions: '-rw-r--r--',
+                      content: `========================================
+        RELAUNCH OPERATION
+========================================
+
+STATUS: READY
+
+Reconnaissance ........ COMPLETE
+Access ................ COMPLETE
+Infrastructure ........ READY
+Communications ........ SECURED
+Resources ............. IN POSITION
+
+The preparation phase is complete.
+
+Everything required for the operation
+is now in place.
+
+The first window is approaching.
+
+No further action is required until
+the scheduled time.
+
+Continue with the remaining files.
+
+========================================`
+                    },
+                    'timeline.log': {
+                      type: 'file',
+                      name: 'timeline.log',
+                      permissions: '-rw-r--r--',
+                      content: `RELAUNCH TIMELINE
+-----------------
+
+Initial window:
+12 September 2026
+
+Secondary phase:
+19 September 2026
+
+Status:
+CONFIRMED`
+                    },
+                    'final_checks.log': {
+                      type: 'file',
+                      name: 'final_checks.log',
+                      permissions: '-rw-r--r--',
+                      content: `FINAL CHECK
+
+[OK] Communications
+[OK] Access
+[OK] Resources
+[OK] Infrastructure
+[OK] Backup
+
+ALL SYSTEMS READY.
+
+WAITING FOR PHASE ONE.`
+                    },
+                    'communication.txt': {
+                      type: 'file',
+                      name: 'communication.txt',
+                      permissions: '-rw-r--r--',
+                      content: `CHANNEL STATUS: SECURE
+
+The first phase will happen remotely.
+
+The second phase requires physical
+presence.
+
+Do not miss the window.
+
+Keep the channel open.`
+                    },
+                    'last_message.txt': {
+                      type: 'file',
+                      name: 'last_message.txt',
+                      permissions: '-rw-r--r--',
+                      content: `If you have reached this file,
+you have followed the trail correctly.
+
+The operation is no longer a plan.
+
+It is scheduled.
+
+12 September.
+19 September.
+
+Remember the dates.
+
+-- fsociety`
+                    },
+                    'window.sh': {
+                      type: 'file',
+                      name: 'window.sh',
+                      permissions: '-rwxr-xr-x',
+                      content: `#!/bin/bash
+# Window initialization script`
+                    }
+                  }
+                },
                 five_nine: {
                   type: 'dir',
                   name: 'five_nine',

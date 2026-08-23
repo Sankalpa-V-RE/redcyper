@@ -9,7 +9,7 @@ export interface CommandResult {
   output?: string[];
   newPath?: string;
   clear?: boolean;
-  action?: 'countdown';
+  action?: 'countdown' | 'read_brief';
 }
 
 export type CommandHandler = (context: CommandContext) => CommandResult;
@@ -127,6 +127,10 @@ const commands: Record<string, CommandHandler> = {
     if (file.name.endsWith('.enc')) {
       // Small easter egg for encrypted files
       return { output: [file.content] };
+    }
+
+    if (file.name === 'operation_brief.txt') {
+      return { output: file.content.split('\n'), action: 'read_brief' };
     }
 
     return { output: file.content.split('\n') };

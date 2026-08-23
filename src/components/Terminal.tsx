@@ -4,6 +4,8 @@ import { executeCommand } from '../utils/commands';
 import { getDirectory } from '../utils/fileSystemAPI';
 import CountdownComponent from './CountdownComponent';
 
+import CorruptedCountdown from './CorruptedCountdown';
+
 interface HistoryEntry {
   type: 'input' | 'output' | 'component';
   content: string;
@@ -21,6 +23,7 @@ export default function Terminal() {
   const [isHardGlitching, setIsHardGlitching] = useState(false);
   const [isBlackout, setIsBlackout] = useState(false);
   const [isBusy, setIsBusy] = useState(true);
+  const [sequenceStage, setSequenceStage] = useState<'none' | 'brief_read' | 'glitch' | 'reveal' | 'corrupted'>('none');
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -106,6 +109,33 @@ export default function Terminal() {
     return () => clearInterval(glitchInterval);
   }, []);
 
+  // Relaunch Operation Sequence
+  useEffect(() => {
+    if (sequenceStage === 'brief_read') {
+      const timer = setTimeout(() => {
+        setSequenceStage('glitch');
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else if (sequenceStage === 'glitch') {
+      triggerHardGlitch(1000);
+      setHistory(prev => {
+        const newHistory = [...prev];
+        newHistory.push({ type: 'output', content: '\n[ WARNING ]\n[ UNAUTHORIZED SESSION DETECTED ]\n' });
+        newHistory.push({ type: 'output', content: 'Ev█rything is r█ady.\n\nThe oper█tion will proce█d\naccording to the sched█led w█ndow.\n\nW██D██W: ██████████' });
+        return newHistory;
+      });
+      const timer = setTimeout(() => {
+        setSequenceStage('corrupted');
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (sequenceStage === 'corrupted') {
+      const timer = setTimeout(() => {
+        setSequenceStage('none');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [sequenceStage]);
+
   const handleCommand = (cmd: string) => {
     if (!cmd.trim()) {
       setHistory(prev => [...prev, { type: 'input', content: '', path: currentPath }]);
@@ -159,13 +189,15 @@ export default function Terminal() {
           setHistory(prev => [...prev, { type: 'output', content: lineContent }]);
           currentOutputLine++;
           
-          // Delay between lines (faster for larger outputs)
           const delay = result.output!.length > 20 ? 10 : Math.random() * 40 + 20;
           setTimeout(printLine, delay);
         } else {
           setIsBusy(false);
           if (result.newPath) {
             setCurrentPath(result.newPath);
+          }
+          if (result.action === 'read_brief') {
+            setSequenceStage('brief_read');
           }
         }
       };
@@ -229,6 +261,10 @@ export default function Terminal() {
   };
 
   const promptString = `root@10.0.2.14:${currentPath}#`;
+
+  if (sequenceStage === 'corrupted') {
+    return <CorruptedCountdown />;
+  }
 
   return (
     <div 
